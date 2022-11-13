@@ -1,11 +1,17 @@
 clear all
 % a
-T = [0.8 0 0 0.3 0
-     0.2 0.6 0 0.2 0
-     0 0.3 1 0 0
-     0 0.1 0 0.4 0
-     0 0 0 0.1 1];
+% T = [0.8 0 0 0.3 0
+%      0.2 0.6 0 0.2 0
+%      0 0.3 1 0 0
+%      0 0.1 0 0.4 0
+%      0 0 0 0.1 1];
 
+% T canonico
+T = [0.8 0 0.3 0 0
+    0.2 0.6 0.2 0 0
+    0 0.1 0.4 0 0
+    0 0.3 0 1 0
+    0 0 0.1 0 1];
 sum(T)
 T>=0 & T<=1
 
@@ -21,7 +27,7 @@ for n = 1:100
     v = T*v;
     vArr(n) = v(2);
 end
-
+figure(1)
 plot(1:100,probArr)
 
 % c
@@ -30,10 +36,11 @@ prob3Arr = zeros(1,100);
 prob5Arr = zeros(1,100);
 % duas maneiras, com T*T ou T*v
 for n = 1:100
-    prob3Arr(n)= TcopyC(3,1);
+    prob3Arr(n)= TcopyC(4,1);
     prob5Arr(n)= TcopyC(5,1);
     TcopyC = TcopyC*T;
 end
+figure(2)
 subplot(1,2,1)
 plot(1:100,prob3Arr)
 grid("on")
@@ -56,6 +63,8 @@ grid("on")
 Q = [0.8 0 0.3 
      0.2 0.6 0.2 
      0 0.1 0.4];
+% nena = 3
+% Q = T(1:nena,1:nena)
 sum(Q)
 Q>=0 & Q<=1
 
