@@ -1,0 +1,25 @@
+clear all
+% %djb2
+% hash = 4381*ones(size(str,1),1)
+% for i=1:size(str,2)
+%     hash = mod(hash * 33 + str(:,i), 2^32-1);
+% end
+% %sdbm
+% hash = 4381*ones(size(str,1),1)
+% for i=1:size(str,2)
+%     hash = mod(hash * 33 + str(:,i), 2^32-1);
+% end
+
+
+alfabeto = ['a':'z' 'A':'Z' '0':'9'];
+N = 1000;
+words = GenerateStrings(N,6,20,alfabeto);
+T = 5e5;
+tabela = zeros(1,T);
+hashArr = zeros(1,N);
+
+for i=1:N
+    hashkey = string2hash(words{i});
+    hashkey = rem(hashkey,T)+1;
+    hashArr(i) = hashkey;
+end
