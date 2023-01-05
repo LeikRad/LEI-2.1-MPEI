@@ -1,0 +1,38 @@
+n=8000;
+kArr=1:20;
+KResults = zeros(1,length(kArr));
+alfabeto = ['a':'z' 'A':'Z' '0':'9'];
+wordArr1 = GenerateStrings(1000,6,20,alfabeto);
+wordArr2 = GenerateStrings(10000,6,20,alfabeto);
+KTeor = zeros(1,length(kArr));
+intersect(wordArr2,wordArr1)
+for j=1:length(kArr)
+    k = kArr(j);
+    B = BloomInit(n,k);
+
+    for i=1:1000
+        word = wordArr1{i};
+        B = BloomInsert(B,word,k);
+        if BloomVerify(B,word,k) == 0
+            sprintf("False Negative with word %s", word)
+            exit(1)
+        end
+    end
+
+    falsepositive = 0;
+
+    for i=1:10000
+        word = wordArr2{i};
+        if BloomVerify(B,word,k) == 1
+            falsepositive = falsepositive+1;
+        end
+    end
+    KResults(j) = falsepositive/10000*100;
+    KTeor(j) = (1-exp(-k*1000/8000))^k*100;
+end
+
+plot(kArr,KResults,"bo:")
+hold("on")
+
+plot(kArr,KTeor,"r+-.")
+
