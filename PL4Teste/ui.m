@@ -11,9 +11,28 @@ while true
     choice = menuDisp();
     switch choice
         case 1
-            fprintf("1\n")
+            ind = find(udata(:,2) == IDSelect);
+            users = udata(ind);
+            for i=1:length(users)
+                name = UserDic{users(i),2};
+                fprintf("%d - %s\n",users(i), name)
+            end
         case 2
-            fprintf("2\n")
+            filmIdMinHash = FilmMinHash(IDSelect,:);
+            Distance = zeros(1,length(filmIdMinHash));
+            for i=1:length(filmIdMinHash)
+                Distance(i) = 1-(length(intersect(filmIdMinHash,FilmMinHash(i,:)))/length(unique([filmIdMinHash; FilmMinHash(i,:)])));
+            end
+            [sortDist,indx] = sort(Distance);
+            usersFilm1 = udata(udata(:,2) == indx(2));
+            usersFilm2 = udata(udata(:,2) == indx(3));
+            usersFilmSel = udata(udata(:,2) == IDSelect);
+            userFilms12 = unique(union(usersFilm1,usersFilm2));
+            users = setdiff(userFilms12,usersFilmSel);
+            for i=1:length(users)
+                name = UserDic{users(i),2};
+                fprintf("%d - %s\n",users(i), name)
+            end
         case 3
             fprintf("1\n")
         case 4
